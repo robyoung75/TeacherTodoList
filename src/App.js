@@ -160,7 +160,7 @@ function App() {
               </FormControl>
 
               <Button
-                // disabled={user}
+                disabled={user ? true : false}
                 onClick={signIn}
                 variant="contained"
                 color="primary"
@@ -169,7 +169,7 @@ function App() {
                 <Typography>Sign in</Typography>
               </Button>
               <Button
-                disabled={!user}
+                disabled={user ? false : true}
                 onClick={signOut}
                 variant="contained"
                 color="primary"

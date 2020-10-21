@@ -190,7 +190,7 @@ function Todo(props) {
                   variant="contained"
                   color="primary"
                   onClick={updateTodo}
-                  // disabled={!input}
+                  disabled={!input}
                 >
                   <Typography>Update Now</Typography>
                 </Button>
