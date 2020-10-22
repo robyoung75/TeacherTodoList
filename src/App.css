@@ -14,7 +14,7 @@
   align-items: center;
   width: 100%;
   margin: 0 0 50px 0;
-  
+  contain: content;
   padding-bottom: 50px;
 }
 
@@ -27,7 +27,7 @@ margin-bottom: 50px;
 .todo {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 2px 2px rgba(0, 0, 0, 0.23);
   border-radius: 15px;
-  
+  width: 80%;
   margin-bottom: 10px;
   padding: 10px;
   

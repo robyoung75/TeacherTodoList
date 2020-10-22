@@ -32,37 +32,53 @@ function App() {
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       if (authUser) {
-        setUser(authUser);
+        let displayName = authUser.displayName;
+        let email = authUser.email;
+        let emailVerified = authUser.emailVerified;
+        let photoURL = authUser.photoURL;
+        let isAnonymous = authUser.isAnonymous;
+        let uid = authUser.uid;
+        let providerData = authUser.providerData;
+
+
+        db.collection("todos") // provides access to the database collection of todos.
+        .orderBy("timestamp", "desc") // orders the collection of todos by timestamp and in decending order.
+        .onSnapshot((snapshot) => {
+          console.log(
+            "I am useEffect function logging a snapshot of doc.data() >>>",
+            snapshot.docs.map((doc) => doc.data())
+          );
+  
+          console.log(
+            "I am useEffect function logging a snapshot of doc.data().todo >>>",
+            snapshot.docs.map((doc) => doc.data().todo)
+          );
+  
+          console.log(
+            "I am useEffect function logging a snapshot of doc.id >>>",
+            snapshot.docs.map((doc) => doc.id)
+          );
+  
+          // setTodos sets the state of todos. In this case we take a snapshot of the database todos
+          // doc and map the doc
+          setTodos(
+            snapshot.docs.map((doc) => ({
+              id: doc.id,
+              todo: doc.data().todo,
+              checked: doc.data().checked,
+            }))
+            // takes a snapshot of the db document and sets todo to an array of objects.
+            // Object includes the id and the todo. This is the initial state based on db info.
+          );
+        });
+
+        setUser(authUser.email);
       } else {
         setUser(null);
       }
     });
 
-    db.collection("todos") // provides access to the database collection of todos.
-      .orderBy("timestamp", "desc") // orders the collection of todos by timestamp and in decending order.
-      .onSnapshot((snapshot) => {
-        console.log(
-          "I am useEffect function logging a snapshot of the db data >>>",
-          snapshot.docs.map((doc) => doc.data())
-        );
-
-        console.log(
-          "I am useEffect function logging a snapshot of the db todos doc >>>",
-          snapshot.docs.map((doc) => doc.data().todo)
-        );
-
-        // setTodos sets the state of todos. In this case we take a snapshot of the database todos
-        // doc and map the doc
-        setTodos(
-          snapshot.docs.map((doc) => ({
-            id: doc.id,
-            todo: doc.data().todo,
-            checked: doc.data().checked,
-          }))
-          // takes a snapshot of the db document and sets todo to an array of objects.
-          // Object includes the id and the todo. This is the initial state based on db info.
-        );
-      });
+  
   }, []); // If an array variable is included use effect will fire when variable is updated and rendered.
   // An empty array only fires on refresh or restart.
 
@@ -71,12 +87,11 @@ function App() {
     auth
       .signInWithEmailAndPassword(email, password)
       .then((auth) => {
-        console.log("USER_LOGGED_IN >>> ", auth);
-      }).catch((error) => console.log(error.message));
-      setEmail("")
-      setPassword("")
-      
-
+        console.log("USER_LOGGED_IN I AM FIREBASE.AUTH() >>> ", auth);
+      })
+      .catch((error) => console.log(error.message, error.code));
+    setEmail("");
+    setPassword("");
   };
 
   const signOut = () => {
@@ -94,8 +109,8 @@ function App() {
         checked: checked,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(), // time stamp makes sure we are working with firestore sever time making uniform for all inputs
       })
-      .then(function () {
-        console.log("To Do successfully added!");
+      .then(function (docRef) {
+        console.log("To Do successfully added! DOC_REF_ID", docRef.id);
       })
       .catch(function (error) {
         console.error("Error adding todo: ", error);
@@ -156,6 +171,7 @@ function App() {
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                   type="password"
+                  style={{ marginRight: 25 }}
                 />
               </FormControl>
 
@@ -180,6 +196,7 @@ function App() {
             </form>
           </div>
         </div>
+
         <div className="app__todoInput">
           <form onSubmit={addTodo}>
             <FormControl>
@@ -212,9 +229,11 @@ function App() {
         <ul>
           {/* Remember use () when you plan to return element */}
           {/* todos is an array of objects. map todos and for each todo return todo */}
-          {todos.map((todo) => (
-            <Todo key={todo.id} todo={todo} apple={apple} />
-          ))}
+          {user
+            ? todos.map((todo) => (
+                <Todo key={Math.random()} todo={todo} apple={apple} />
+              ))
+            : null}
         </ul>
       </div>
     </ThemeProvider>
