@@ -1,26 +1,30 @@
-.app {
-  text-align: center;
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  
+.app {  
   
 }
 
 .app__header {
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  align-items: center;
-  width: 100%;
-  margin: 0 0 50px 0;
-  contain: content;
-  padding-bottom: 50px;
+ display: flex;
+ justify-content: center;
 }
 
 .app__todoInput {
-margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  /* background-color: rebeccapurple; */
+  align-items: center;
+  justify-items: center;
+  width: 50%;
 }
+
+.app__todoContainer {
+  width: 50%;
+  padding-top: 50px;
+  
+}
+
+
+
+
 
 
 

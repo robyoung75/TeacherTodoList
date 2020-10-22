@@ -13,8 +13,11 @@ import {
   Typography,
 } from "@material-ui/core";
 
+import AppLoginBar from "./AppBar";
+
 import apple from "./apple.png";
 import { SettingsInputSvideoRounded } from "@material-ui/icons";
+import { grey } from "@material-ui/core/colors";
 
 function App() {
   // state variables to hold and set short term memory or state.
@@ -40,45 +43,42 @@ function App() {
         let uid = authUser.uid;
         let providerData = authUser.providerData;
 
-
         db.collection("todos") // provides access to the database collection of todos.
-        .orderBy("timestamp", "desc") // orders the collection of todos by timestamp and in decending order.
-        .onSnapshot((snapshot) => {
-          console.log(
-            "I am useEffect function logging a snapshot of doc.data() >>>",
-            snapshot.docs.map((doc) => doc.data())
-          );
-  
-          console.log(
-            "I am useEffect function logging a snapshot of doc.data().todo >>>",
-            snapshot.docs.map((doc) => doc.data().todo)
-          );
-  
-          console.log(
-            "I am useEffect function logging a snapshot of doc.id >>>",
-            snapshot.docs.map((doc) => doc.id)
-          );
-  
-          // setTodos sets the state of todos. In this case we take a snapshot of the database todos
-          // doc and map the doc
-          setTodos(
-            snapshot.docs.map((doc) => ({
-              id: doc.id,
-              todo: doc.data().todo,
-              checked: doc.data().checked,
-            }))
-            // takes a snapshot of the db document and sets todo to an array of objects.
-            // Object includes the id and the todo. This is the initial state based on db info.
-          );
-        });
+          .orderBy("timestamp", "desc") // orders the collection of todos by timestamp and in decending order.
+          .onSnapshot((snapshot) => {
+            console.log(
+              "I am useEffect function logging a snapshot of doc.data() >>>",
+              snapshot.docs.map((doc) => doc.data())
+            );
+
+            console.log(
+              "I am useEffect function logging a snapshot of doc.data().todo >>>",
+              snapshot.docs.map((doc) => doc.data().todo)
+            );
+
+            console.log(
+              "I am useEffect function logging a snapshot of doc.id >>>",
+              snapshot.docs.map((doc) => doc.id)
+            );
+
+            // setTodos sets the state of todos. In this case we take a snapshot of the database todos
+            // doc and map the doc
+            setTodos(
+              snapshot.docs.map((doc) => ({
+                id: doc.id,
+                todo: doc.data().todo,
+                checked: doc.data().checked,
+              }))
+              // takes a snapshot of the db document and sets todo to an array of objects.
+              // Object includes the id and the todo. This is the initial state based on db info.
+            );
+          });
 
         setUser(authUser.email);
       } else {
         setUser(null);
       }
     });
-
-  
   }, []); // If an array variable is included use effect will fire when variable is updated and rendered.
   // An empty array only fires on refresh or restart.
 
@@ -95,7 +95,7 @@ function App() {
   };
 
   const signOut = () => {
-    auth.signOut().then(console.log("YOU ARE SIGNED OUT", user));
+    auth.signOut().then(setUser("")).then(console.log('USER HAS SIGNED OUT'));
   };
 
   const addTodo = (event) => {
@@ -126,6 +126,18 @@ function App() {
   return (
     <ThemeProvider theme={newTheme}>
       <div className="app">
+        <div className="app__nav">
+          <AppLoginBar
+            user={user}
+            signIn={signIn}
+            signOut={signOut}
+            email={email}
+            password={password}
+            setEmail={setEmail}
+            setPassword={setPassword}
+          />
+        </div>
+
         <div className="app__header">
           <Typography color="primary" variant="h3">
             <span>
@@ -138,63 +150,6 @@ function App() {
             </span>
             Teacher's To Do List
           </Typography>
-          <div className="app__signInForm">
-            <form>
-              <FormControl>
-                <InputLabel htmlFor="my-input">
-                  <Typography
-                    color="primary"
-                    style={{ fontSize: 12, color: "lightgray" }}
-                  >
-                    Sign in email
-                  </Typography>
-                </InputLabel>
-
-                <Input
-                  style={{ marginRight: 25 }}
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  type="email"
-                />
-              </FormControl>
-              <FormControl>
-                <InputLabel htmlFor="my-input">
-                  <Typography
-                    color="primary"
-                    style={{ fontSize: 12, color: "lightgray" }}
-                  >
-                    Sign in password
-                  </Typography>
-                </InputLabel>
-
-                <Input
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  type="password"
-                  style={{ marginRight: 25 }}
-                />
-              </FormControl>
-
-              <Button
-                disabled={user ? true : false}
-                onClick={signIn}
-                variant="contained"
-                color="primary"
-                style={{ margin: 10 }}
-              >
-                <Typography>Sign in</Typography>
-              </Button>
-              <Button
-                disabled={user ? false : true}
-                onClick={signOut}
-                variant="contained"
-                color="primary"
-                style={{ margin: 10 }}
-              >
-                <Typography>Sign out</Typography>
-              </Button>
-            </form>
-          </div>
         </div>
 
         <div className="app__todoInput">
@@ -220,21 +175,24 @@ function App() {
               onClick={addTodo}
               variant="contained"
               color="primary"
+              size="small"
             >
               <Typography> Create To Do </Typography>
             </Button>
           </form>
         </div>
+        <div className="app__todoContainer">
+          <ul>
+            {/* Remember use () when you plan to return element */}
+            {/* todos is an array of objects. map todos and for each todo return todo */}
 
-        <ul>
-          {/* Remember use () when you plan to return element */}
-          {/* todos is an array of objects. map todos and for each todo return todo */}
-          {user
-            ? todos.map((todo) => (
-                <Todo key={Math.random()} todo={todo} apple={apple} />
-              ))
-            : null}
-        </ul>
+            {!user
+              ? null
+              : todos.map((todo) => (
+                  <Todo key={Math.random()} todo={todo} apple={apple} />
+                ))}
+          </ul>
+        </div>
       </div>
     </ThemeProvider>
   );
