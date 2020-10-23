@@ -16,7 +16,7 @@ import {
 import AppLoginBar from "./AppBar";
 
 import apple from "./apple.png";
-import { SettingsInputSvideoRounded } from "@material-ui/icons";
+import { SettingsInputSvideoRounded, Unsubscribe } from "@material-ui/icons";
 import { grey } from "@material-ui/core/colors";
 
 function App() {
@@ -95,7 +95,9 @@ function App() {
   };
 
   const signOut = () => {
-    auth.signOut().then(setUser("")).then(console.log('USER HAS SIGNED OUT'));
+    
+    setUser("")
+    auth.signOut().then(console.log("USER HAS SIGNED OUT"));
   };
 
   const addTodo = (event) => {
@@ -137,51 +139,50 @@ function App() {
             setPassword={setPassword}
           />
         </div>
-
-        <div className="app__header">
-          <Typography color="primary" variant="h3">
-            <span>
-              <img
-                src={apple}
-                width="80"
-                height="80"
-                style={{ marginRight: 30 }}
-              />
-            </span>
-            Teacher's To Do List
-          </Typography>
-        </div>
-
-        <div className="app__todoInput">
-          <form onSubmit={addTodo}>
-            <FormControl>
-              <InputLabel htmlFor="my-input">
-                <Typography
-                  color="primary"
-                  style={{ fontSize: 12, color: "lightgray" }}
-                >
-                  Write Todo
-                </Typography>
-              </InputLabel>
-
-              <Input
-                value={input}
-                onChange={(event) => setInput(event.target.value)}
-              />
-            </FormControl>
-
-            <Button
-              disabled={!input}
-              onClick={addTodo}
-              variant="contained"
-              color="primary"
-              size="small"
-            >
-              <Typography> Create To Do </Typography>
-            </Button>
-          </form>
-        </div>
         <div className="app__todoContainer">
+          <div className="app__header">
+            <Typography color="primary" variant="h4">
+              <span>
+                <img
+                  src={apple}
+                  width="80"
+                  height="80"
+                  style={{ marginRight: 30 }}
+                />
+              </span>
+              Teacher's To Do List
+            </Typography>
+          </div>
+          <div className="app__todoInput">
+            <form onSubmit={addTodo}>
+              <FormControl style={{ paddingBottom: "30px" }}>
+                <InputLabel htmlFor="my-input">
+                  <Typography
+                    color="primary"
+                    style={{ fontSize: 12, color: "lightgray" }}
+                  >
+                    Write Todo
+                  </Typography>
+                </InputLabel>
+
+                <Input
+                  value={input}
+                  onChange={(event) => setInput(event.target.value)}
+                />
+              </FormControl>
+
+              <Button
+                disabled={!input}
+                onClick={addTodo}
+                variant="contained"
+                color="primary"
+                size="small"
+              >
+                <Typography> Create To Do </Typography>
+              </Button>
+            </form>
+          </div>
+
           <ul>
             {/* Remember use () when you plan to return element */}
             {/* todos is an array of objects. map todos and for each todo return todo */}

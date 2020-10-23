@@ -5,6 +5,17 @@ import green from "@material-ui/core/colors/green";
 
 
 const useStyles = makeStyles((theme) => ({
+  list: {
+    fontSize: ".9rem"
+  },
+  listSecondary: {
+    fontSize: ".75rem"
+  },
+  listItem: {
+    width: "600px",
+  
+  
+  },
   
   modal: {
     display: "flex",
@@ -38,12 +49,12 @@ const newTheme = createMuiTheme({
       main: green[500],
     },
   },
-  typography: {
-      h3: {
-          fontWeight: "bold",
-          padding: '50px'
-      }
-  }
+  // typography: {
+  //     h3: {
+  //         fontWeight: "bold",
+  //         padding: '50px'
+  //     }
+  // }
 });
 
 export { newTheme, useStyles };

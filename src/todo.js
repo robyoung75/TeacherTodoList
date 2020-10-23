@@ -109,52 +109,58 @@ function Todo(props) {
       });
   }
 
-  
   return (
-  
     <div className="todo">
       <List className={classes.root}>
-        <ListItem role={undefined} dense>
-          <ListItemIcon>
-            <Checkbox
-              edge="start"
-              onClick={handleCheck}
-              
-              checked={props.todo.checked}
+        <ListItem role={undefined} dense className={classes.listItem}>
+          <div className="todo__checkbox">
+            <ListItemIcon>
+              <Checkbox
+                edge="start"
+                onClick={handleCheck}
+                checked={props.todo.checked}
+              />
+            </ListItemIcon>
+          </div>
+          <div className="todo__todoText">
+            <ListItemText
+              primary={
+                <Typography color="primary" className={classes.list}>
+                  {
+                    <img
+                      src={props.apple}
+                      width="20"
+                      height="20"
+                      style={{ marginRight: 5 }}
+                    ></img>
+                  }
+                  {props.todo.todo}
+                </Typography>
+              }
+              secondary={
+                <Typography color="secondary" className={classes.listSecondary}>
+                  Shaping the future one To Do at a time
+                </Typography>
+              }
             />
-          </ListItemIcon>
-          <ListItemText
-            primary={
-              <Typography color="primary">
-                {
-                  <img
-                    src={props.apple}
-                    width="20"
-                    height="20"
-                    style={{ marginRight: 5 }}
-                  ></img>
-                }
-                {props.todo.todo}
-              </Typography>
-            }
-            secondary={
-              <Typography color="secondary">
-                Shaping the future one To Do at a time
-              </Typography>
-            }
-          />
-          <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="comments" onClick={deleteTodo}>
-              <DeleteIcon />
-            </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="comments"
-              onClick={(event) => setOpen(true)}
-            >
-              <EditIcon />
-            </IconButton>
-          </ListItemSecondaryAction>
+          </div>
+          
+            <ListItemSecondaryAction>
+            <div className="todo__deleteEdit">
+              <IconButton edge="end" aria-label="comments" onClick={deleteTodo}>
+                <DeleteIcon />
+              </IconButton>
+              <IconButton
+              
+                edge="end"
+                aria-label="comments"
+                onClick={(event) => setOpen(true)}
+              >
+                <EditIcon />
+              </IconButton>
+              </div>
+            </ListItemSecondaryAction>
+          
         </ListItem>
       </List>
 

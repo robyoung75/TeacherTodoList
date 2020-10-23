@@ -14,8 +14,11 @@ const useStyles = makeStyles((theme) => ({
   },
 
   textField: {
-    color: "lightgrey",
+    marginLeft: 20,
+    
   },
+
+  input: { color: "white" },
 
   title: {
     flexGrow: 1,
@@ -54,13 +57,17 @@ export default function AppLoginBar({
             autoComplete="off"
           >
             <TextField
-              
               id="standard-basic"
               type="email"
               label="email"
               onChange={onEmailChange}
               value={email}
               size="small"
+              className={classes.textField}
+              InputProps={{
+                className: classes.input,                
+              }}
+              InputLabelProps={{ className: classes.input, }}
             />
             <TextField
               id="standard-basic"
@@ -69,6 +76,11 @@ export default function AppLoginBar({
               onChange={onPasswordChange}
               value={password}
               size="small"
+              className={classes.textField}
+              InputProps={{
+                className: classes.input,
+              }}
+              InputLabelProps={{ className: classes.input, }}
             />
           </form>
           <Button color="inherit" onClick={!user ? signIn : signOut}>
