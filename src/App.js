@@ -29,7 +29,6 @@ function App() {
   const [time, setTime] = useState(new Date().toLocaleTimeString());
 
   // console.log("I am the real-time input >>>>", input); // logs user input real time.
-
   // useEffect fires after the initial render and only fires on load or update. In this case we are accessing the firestore
   // database. Following render the database information is used to poputlate the todo list. On change or update of the
   // database useEffect will fire again.
