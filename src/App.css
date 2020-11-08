@@ -7,13 +7,20 @@
   padding: 30px;
 }
 
+.app__header_h3 {
+  margin: 0;
+}
+
+.app__headerTime {
+  font-size: small;
+}
+
 .app__todoContainer {
   display: flex;
   flex-direction: column;
   /* background-color: yellow; */
   align-items: center;
-  width: 50%;  
-  
+  width: 50%;
 }
 
 .todo {

@@ -1,22 +1,18 @@
-import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
+import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
 import purple from "@material-ui/core/colors/purple";
 import green from "@material-ui/core/colors/green";
 
-
-
 const useStyles = makeStyles((theme) => ({
   list: {
-    fontSize: ".9rem"
+    fontSize: ".9rem",
   },
   listSecondary: {
-    fontSize: ".75rem"
+    fontSize: ".75rem",
   },
   listItem: {
     width: "600px",
-  
-  
   },
-  
+
   modal: {
     display: "flex",
     alignItems: "center",
@@ -34,14 +30,11 @@ const useStyles = makeStyles((theme) => ({
   extendedIcon: {
     marginRight: theme.spacing(1),
   },
-
 }));
-
 
 // Material index, set a theme
 const newTheme = createMuiTheme({
   palette: {
-    
     primary: {
       main: purple[500],
     },
@@ -59,7 +52,4 @@ const newTheme = createMuiTheme({
 
 export { newTheme, useStyles };
 
-
-
 // useStyles will override the theme when called.
-

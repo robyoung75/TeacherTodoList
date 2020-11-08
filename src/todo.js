@@ -144,23 +144,21 @@ function Todo(props) {
               }
             />
           </div>
-          
-            <ListItemSecondaryAction>
+
+          <ListItemSecondaryAction>
             <div className="todo__deleteEdit">
               <IconButton edge="end" aria-label="comments" onClick={deleteTodo}>
                 <DeleteIcon />
               </IconButton>
               <IconButton
-              
                 edge="end"
                 aria-label="comments"
                 onClick={(event) => setOpen(true)}
               >
                 <EditIcon />
               </IconButton>
-              </div>
-            </ListItemSecondaryAction>
-          
+            </div>
+          </ListItemSecondaryAction>
         </ListItem>
       </List>
 

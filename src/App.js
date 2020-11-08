@@ -16,8 +16,6 @@ import {
 import AppLoginBar from "./AppBar";
 
 import apple from "./apple.png";
-import { SettingsInputSvideoRounded, Unsubscribe } from "@material-ui/icons";
-import { grey } from "@material-ui/core/colors";
 
 function App() {
   // state variables to hold and set short term memory or state.
@@ -27,6 +25,9 @@ function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
+  const [date, setDate] = useState(new Date().toLocaleDateString());
+  const [time, setTime] = useState(new Date().toLocaleTimeString());
+
   // console.log("I am the real-time input >>>>", input); // logs user input real time.
 
   // useEffect fires after the initial render and only fires on load or update. In this case we are accessing the firestore
@@ -35,31 +36,32 @@ function App() {
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       if (authUser) {
-        let displayName = authUser.displayName;
-        let email = authUser.email;
-        let emailVerified = authUser.emailVerified;
-        let photoURL = authUser.photoURL;
-        let isAnonymous = authUser.isAnonymous;
-        let uid = authUser.uid;
-        let providerData = authUser.providerData;
+        // // Notes on authUser object
+        // let displayName = authUser.displayName;
+        // let email = authUser.email;
+        // let emailVerified = authUser.emailVerified;
+        // let photoURL = authUser.photoURL;
+        // let isAnonymous = authUser.isAnonymous;
+        // let uid = authUser.uid;
+        // let providerData = authUser.providerData;
 
         db.collection("todos") // provides access to the database collection of todos.
           .orderBy("timestamp", "desc") // orders the collection of todos by timestamp and in decending order.
           .onSnapshot((snapshot) => {
-            console.log(
-              "I am useEffect function logging a snapshot of doc.data() >>>",
-              snapshot.docs.map((doc) => doc.data())
-            );
+            // console.log(
+            //   "I am useEffect function logging a snapshot of doc.data() >>>",
+            //   snapshot.docs.map((doc) => doc.data())
+            // );
 
-            console.log(
-              "I am useEffect function logging a snapshot of doc.data().todo >>>",
-              snapshot.docs.map((doc) => doc.data().todo)
-            );
+            // console.log(
+            //   "I am useEffect function logging a snapshot of doc.data().todo >>>",
+            //   snapshot.docs.map((doc) => doc.data().todo)
+            // );
 
-            console.log(
-              "I am useEffect function logging a snapshot of doc.id >>>",
-              snapshot.docs.map((doc) => doc.id)
-            );
+            // console.log(
+            //   "I am useEffect function logging a snapshot of doc.id >>>",
+            //   snapshot.docs.map((doc) => doc.id)
+            // );
 
             // setTodos sets the state of todos. In this case we take a snapshot of the database todos
             // doc and map the doc
@@ -95,8 +97,7 @@ function App() {
   };
 
   const signOut = () => {
-    
-    setUser("")
+    setUser("");
     auth.signOut().then(console.log("USER HAS SIGNED OUT"));
   };
 
@@ -150,7 +151,10 @@ function App() {
                   style={{ marginRight: 30 }}
                 />
               </span>
-              Teacher's To Do List
+              <h3 className="app__header_h3">Teacher's To Do List</h3>
+              <div className="app__headerTime">
+                <Typography color="secondary">{`${date}, ${time}`}</Typography>
+              </div>
             </Typography>
           </div>
           <div className="app__todoInput">
