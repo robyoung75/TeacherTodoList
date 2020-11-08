@@ -4,7 +4,6 @@ import firebase from "firebase";
 
 const firebaseApp = firebase.initializeApp({
   
-  measurementId: "G-8C106MH5N2",
 });
 
 const db = firebaseApp.firestore();
