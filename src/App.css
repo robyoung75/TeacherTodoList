@@ -1,34 +1,28 @@
-.app {
+
+
+.app__container {
   display: flex;
   flex-direction: column;
+  /* background-color: yellow;    */
+  width: 50%;
+  padding: 20px;
 }
 
 .app__header {
-  padding: 30px;
-}
-
-.app__header_h3 {
-  margin: 0;
-}
-
-.app__headerTime {
-  font-size: small;
-}
-
-.app__todoContainer {
   display: flex;
-  flex-direction: column;
-  /* background-color: yellow; */
+  /* background-color: red; */
+  width: 100%;
   align-items: center;
-  width: 50%;
+  padding-bottom: 20px;
 }
 
-.todo {
-  display: flex;
+
+.todo {  
   /* background-color: purple; */
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 2px 2px rgba(0, 0, 0, 0.23);
   border-radius: 8px;
   margin-bottom: 10px;
+  
 }
 
 .todo:hover {

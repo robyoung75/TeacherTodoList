@@ -2,15 +2,20 @@ import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
 import purple from "@material-ui/core/colors/purple";
 import green from "@material-ui/core/colors/green";
 
+
 const useStyles = makeStyles((theme) => ({
   list: {
-    fontSize: ".9rem",
+    fontSize: ".7rem",
+    
+    
   },
   listSecondary: {
-    fontSize: ".75rem",
+    fontSize: ".6rem",
   },
   listItem: {
-    width: "600px",
+    minWidth: "350px",
+    display: "flex",
+    
   },
 
   modal: {
@@ -42,12 +47,12 @@ const newTheme = createMuiTheme({
       main: green[500],
     },
   },
-  // typography: {
-  //     h3: {
-  //         fontWeight: "bold",
-  //         padding: '50px'
-  //     }
-  // }
+  typography: {
+      subtitle1: {
+          fontSize: 10,
+          
+      }
+  }
 });
 
 export { newTheme, useStyles };

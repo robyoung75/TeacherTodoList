@@ -26,7 +26,11 @@ function App() {
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const [date, setDate] = useState(new Date().toLocaleDateString());
-  const [time, setTime] = useState(new Date().toLocaleTimeString());
+  const [time, setTime] = useState(
+    setInterval(() => {
+      setTime(new Date().toLocaleTimeString());
+    }, 1000)
+  );
 
   // console.log("I am the real-time input >>>>", input); // logs user input real time.
   // useEffect fires after the initial render and only fires on load or update. In this case we are accessing the firestore
@@ -80,11 +84,12 @@ function App() {
         setUser(null);
       }
     });
-  }, []); // If an array variable is included use effect will fire when variable is updated and rendered.
+  }, [user]); // If an array variable is included use effect will fire when variable is updated and rendered.
   // An empty array only fires on refresh or restart.
 
   const signIn = (e) => {
-    e.preventDefault();
+    if (user === null) {
+      e.preventDefault();
     auth
       .signInWithEmailAndPassword(email, password)
       .then((auth) => {
@@ -93,11 +98,22 @@ function App() {
       .catch((error) => console.log(error.message, error.code));
     setEmail("");
     setPassword("");
+
+    }
+    
   };
 
   const signOut = () => {
-    setUser("");
-    auth.signOut().then(console.log("USER HAS SIGNED OUT"));
+    if (user != null) {
+      auth
+        .signOut()
+        .then(setUser(null), console.log("USER HAS SIGNED OUT"))
+        .catch((error) => console.log(error.message, error.code));
+      setUser(null);
+    }
+    else {
+      alert("you are not signed in")
+    }
   };
 
   const addTodo = (event) => {
@@ -139,22 +155,29 @@ function App() {
             setPassword={setPassword}
           />
         </div>
-        <div className="app__todoContainer">
+        <div className="app__container">
           <div className="app__header">
-            <Typography color="primary" variant="h4">
+            <div className="app__headerLeft">
               <span>
                 <img
                   src={apple}
                   width="80"
                   height="80"
                   style={{ marginRight: 30 }}
+                  alt="apple"
                 />
               </span>
-              <h3 className="app__header_h3">Teacher's To Do List</h3>
-              <div className="app__headerTime">
-                <Typography color="secondary">{`${date}, ${time}`}</Typography>
-              </div>
-            </Typography>
+            </div>
+            <div className="app__headerRight">
+              <Typography color="primary" variant="h5">
+                Teacher's To Do List
+              </Typography>
+
+              <Typography
+                color="secondary"
+                variant="subtitle1"
+              >{`${date}, ${time}`}</Typography>
+            </div>
           </div>
           <div className="app__todoInput">
             <form onSubmit={addTodo}>
@@ -185,17 +208,18 @@ function App() {
               </Button>
             </form>
           </div>
+          <div className="app__todosContainer">
+            <ul>
+              {/* Remember use () when you plan to return element */}
+              {/* todos is an array of objects. map todos and for each todo return todo */}
 
-          <ul>
-            {/* Remember use () when you plan to return element */}
-            {/* todos is an array of objects. map todos and for each todo return todo */}
-
-            {!user
-              ? null
-              : todos.map((todo) => (
-                  <Todo key={Math.random()} todo={todo} apple={apple} />
-                ))}
-          </ul>
+              {!user
+                ? null
+                : todos.map((todo) => (
+                    <Todo todo={todo} apple={apple} key={todo.id} />
+                  ))}
+            </ul>
+          </div>
         </div>
       </div>
     </ThemeProvider>

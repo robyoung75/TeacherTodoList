@@ -28,7 +28,6 @@ function Todo(props) {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [checked, setChecked] = useState(false);
-  const [user, setUser] = useState(false);
   const classes = useStyles();
 
   const handleCheck = (event) => {
@@ -109,8 +108,13 @@ function Todo(props) {
       });
   }
 
+  function openModal(e) {
+    e.preventDefault();
+    setOpen(true)
+  }
+
   return (
-    <div className="todo">
+    <div className="todo" key={props.todo.id}>
       <List className={classes.root}>
         <ListItem role={undefined} dense className={classes.listItem}>
           <div className="todo__checkbox">
@@ -132,6 +136,7 @@ function Todo(props) {
                       width="20"
                       height="20"
                       style={{ marginRight: 5 }}
+                      alt="apple"
                     ></img>
                   }
                   {props.todo.todo}
@@ -153,7 +158,7 @@ function Todo(props) {
               <IconButton
                 edge="end"
                 aria-label="comments"
-                onClick={(event) => setOpen(true)}
+                onClick={openModal}
               >
                 <EditIcon />
               </IconButton>
@@ -161,48 +166,49 @@ function Todo(props) {
           </ListItemSecondaryAction>
         </ListItem>
       </List>
+      <div className="modal">
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          className={classes.modal}
+          open={open}
+          onClose={(event) => setOpen(false)}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={open}>
+            <div className={classes.paper}>
+              <form onSubmit={updateTodo}>
+                <h2 id="transition-modal-title">
+                  <Typography color="secondary">Edit To Do</Typography>
+                </h2>
+                <FormControl>
+                  <InputLabel htmlFor="my-input">
+                    <Typography color="secondary">Update To Do</Typography>
+                  </InputLabel>
 
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={open}
-        onClose={(event) => setOpen(false)}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <div className={classes.paper}>
-            <form onSubmit={updateTodo}>
-              <h2 id="transition-modal-title">
-                <Typography color="secondary">Edit To Do</Typography>
-              </h2>
-              <FormControl>
-                <InputLabel htmlFor="my-input">
-                  <Typography color="secondary">Update To Do</Typography>
-                </InputLabel>
-
-                <Input
-                  placeholder={props.todo.todo}
-                  value={input}
-                  onChange={(event) => setInput(event.target.value)}
-                />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={updateTodo}
-                  disabled={!input}
-                >
-                  <Typography>Update Now</Typography>
-                </Button>
-              </FormControl>
-            </form>
-          </div>
-        </Fade>
-      </Modal>
+                  <Input
+                    placeholder={props.todo.todo}
+                    value={input}
+                    onChange={(event) => setInput(event.target.value)}
+                  />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={updateTodo}
+                    disabled={!input}
+                  >
+                    <Typography>Update Now</Typography>
+                  </Button>
+                </FormControl>
+              </form>
+            </div>
+          </Fade>
+        </Modal>
+      </div>
     </div>
   );
 }
